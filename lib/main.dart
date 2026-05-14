@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_database/models/transaction.dart';
+import 'package:flutter_database/providers/transaction_provider.dart';
 import 'package:flutter_database/screens/form_screen.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,13 +13,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) {
+            return TransactionProvider();
+          },
+        ),
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: const MyHomePage(title: 'แอพบัญชี'),
       ),
-      home: const MyHomePage(title: 'แอพบัญชี'),
     );
   }
 }
@@ -51,20 +63,30 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-      body: ListView.builder(
-        itemCount: 5,
-        itemBuilder: (context, int index) {
-          return Card(
-            elevation: 5,
-            margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            child: ListTile(
-              leading: CircleAvatar(
-                radius: 20,
-                child: FittedBox(child: Text("500")),
-              ),
-              title: Text("รายการ"),
-              subtitle: Text("14/05/2026"),
-            ),
+      body: Consumer<TransactionProvider>(
+        // ระบุ Type ที่จะดึงข้อมูลด้วย
+        builder: (context, provider, child) {
+          return ListView.builder(
+            itemCount: provider.transactions.length,
+            itemBuilder: (context, int index) {
+              // ดึงข้อมูลทีละแถว
+              Transaction data = provider.transactions[index];
+              return Card(
+                elevation: 5,
+                margin: const EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 20,
+                ),
+                child: ListTile(
+                  leading: CircleAvatar(
+                    radius: 20,
+                    child: FittedBox(child: Text(data.amount.toString())),
+                  ),
+                  title: Text(data.title),
+                  subtitle: Text(data.date.toString()),
+                ),
+              );
+            },
           );
         },
       ),
