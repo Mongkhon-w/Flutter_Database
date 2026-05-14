@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_database/screens/form_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,7 +12,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
       home: const MyHomePage(title: 'แอพบัญชี'),
     );
   }
@@ -31,7 +35,21 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
-        actions: [IconButton(icon: Icon(Icons.add), onPressed: () {})],
+        actions: [
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return FormScreen();
+                  },
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: Container(),
     );
