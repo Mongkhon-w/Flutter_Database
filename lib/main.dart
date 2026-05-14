@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_database/models/transaction.dart';
 import 'package:flutter_database/providers/transaction_provider.dart';
@@ -66,28 +68,35 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Consumer<TransactionProvider>(
         // ระบุ Type ที่จะดึงข้อมูลด้วย
         builder: (context, provider, child) {
-          return ListView.builder(
-            itemCount: provider.transactions.length,
-            itemBuilder: (context, int index) {
-              // ดึงข้อมูลทีละแถว
-              Transaction data = provider.transactions[index];
-              return Card(
-                elevation: 5,
-                margin: const EdgeInsets.symmetric(
-                  vertical: 10,
-                  horizontal: 20,
-                ),
-                child: ListTile(
-                  leading: CircleAvatar(
-                    radius: 20,
-                    child: FittedBox(child: Text(data.amount.toString())),
+          var count = provider.transactions.length;
+          if (count <= 0) {
+            return Center(
+              child: Text("ไม่พบข้อมูล", style: TextStyle(fontSize: 30)),
+            );
+          } else {
+            return ListView.builder(
+              itemCount: count,
+              itemBuilder: (context, int index) {
+                // ดึงข้อมูลทีละแถว
+                Transaction data = provider.transactions[index];
+                return Card(
+                  elevation: 5,
+                  margin: const EdgeInsets.symmetric(
+                    vertical: 10,
+                    horizontal: 20,
                   ),
-                  title: Text(data.title),
-                  subtitle: Text(data.date.toString()),
-                ),
-              );
-            },
-          );
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 20,
+                      child: FittedBox(child: Text(data.amount.toString())),
+                    ),
+                    title: Text(data.title),
+                    subtitle: Text(data.date.toString()),
+                  ),
+                );
+              },
+            );
+          }
         },
       ),
     );
