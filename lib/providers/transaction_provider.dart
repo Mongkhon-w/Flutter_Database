@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_database/models/transaction.dart';
+import 'package:flutter_database/database/transaction_db.dart';
+import 'package:flutter_database/models/transactions.dart';
+import 'package:flutter_database/database/transaction_db.dart';
 
 class TransactionProvider with ChangeNotifier {
   // ตัวอย่างข้อมูล
@@ -10,14 +12,16 @@ class TransactionProvider with ChangeNotifier {
   //   Transaction(title: "นาฬิกา", amount: 1400, date: DateTime.now()),
   // ];
 
-  List<Transaction> transactions = [];
+  List<Transactions> transactions = [];
 
   // ดึงข้อมูล
-  List<Transaction> getTransaction() {
+  List<Transactions> getTransaction() {
     return transactions;
   }
 
-  void addTransaction(Transaction statement) {
+  void addTransaction(Transactions statement) async {
+    var db = await TransactionDB(dbName: "transactions.db").openDatabase();
+    print(db);
     transactions.insert(0, statement);
     // แจ้งเตือน Consumer
     notifyListeners();
