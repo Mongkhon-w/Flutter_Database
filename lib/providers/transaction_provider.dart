@@ -19,10 +19,24 @@ class TransactionProvider with ChangeNotifier {
     return transactions;
   }
 
+  void initData() async {
+    var db = TransactionDB(dbName: "transactions.db");
+    // ดึงข้อมูลมาแสดงผล
+    transactions = await db.loadAllData();
+    notifyListeners();
+  }
+
   void addTransaction(Transactions statement) async {
-    var db = await TransactionDB(dbName: "transactions.db").openDatabase();
-    print(db);
-    transactions.insert(0, statement);
+    // var db = await TransactionDB(dbName: "transactions.db").openDatabase();
+    // print(db);
+
+    var db = TransactionDB(dbName: "transactions.db");
+    // บันทึกข้อมูล
+    await db.InsertData(statement);
+
+    // ดึงข้อมูลมาแสดงผล
+    transactions = await db.loadAllData();
+
     // แจ้งเตือน Consumer
     notifyListeners();
   }
