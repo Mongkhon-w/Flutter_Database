@@ -42,6 +42,18 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return HomeScreen();
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        backgroundColor: Colors.blue,
+        body: TabBarView(children: [HomeScreen(), FormScreen()]),
+        bottomNavigationBar: TabBar(
+          tabs: [
+            Tab(icon: Icon(Icons.list), text: "รายการธุระกรรม"),
+            Tab(icon: Icon(Icons.add), text: "เพิ่มข้อมูล"),
+          ],
+        ),
+      ),
+    );
   }
 }

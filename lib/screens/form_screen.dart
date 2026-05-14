@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_database/main.dart';
 import 'package:flutter_database/models/transactions.dart';
 import 'package:flutter_database/providers/transaction_provider.dart';
+import 'package:flutter_database/screens/home_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_database/main.dart';
 
 class FormScreen extends StatelessWidget {
   FormScreen({super.key});
@@ -27,7 +30,7 @@ class FormScreen extends StatelessWidget {
             children: [
               TextFormField(
                 decoration: const InputDecoration(labelText: "ชื่อรายการ"),
-                autofocus: true,
+                autofocus: false,
                 // controller
                 controller: titleController,
                 // แก้ไข: ใช้ String? และเช็ก null เพื่อรองรับ Null Safety
@@ -86,7 +89,15 @@ class FormScreen extends StatelessWidget {
                       );
                       provider.addTransaction(statement);
                       // ถ้าข้อมูลถูกต้อง ให้ทำงานในนี้
-                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          fullscreenDialog: true,
+                          builder: (context) {
+                            return MyHomePage(title: '');
+                          },
+                        ),
+                      );
                     }
                   },
                   child: const Text("เพิ่มข้อมูล"),
