@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_database/models/transactions.dart';
 import 'package:flutter_database/providers/transaction_provider.dart';
 import 'package:flutter_database/screens/form_screen.dart';
@@ -30,12 +31,9 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         actions: [
           IconButton(
-            icon: const Icon(Icons.add),
+            icon: const Icon(Icons.exit_to_app),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => FormScreen()),
-              );
+              SystemNavigator.pop();
             },
           ),
         ],
